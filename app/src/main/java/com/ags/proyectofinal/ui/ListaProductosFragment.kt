@@ -41,7 +41,17 @@ class ListaProductosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvError.visibility = View.GONE
+        binding.btReload.visibility = View.GONE
         repository = (requireActivity() .application as ProyectoFinalApp).productoRepository
+        load()
+    }
+
+    private fun load(){
+        binding.tvError.visibility = View.GONE
+        binding.btReload.visibility = View.GONE
+        binding.pbLoading.visibility = View.VISIBLE
+
         lifecycleScope.launch {
             val call: Call<List<ProductoDto>> = repository.getCatalogoProductosApiary()
 
@@ -73,8 +83,14 @@ class ListaProductosFragment : Fragment() {
                 override fun onFailure(call: Call<List<ProductoDto>>, t: Throwable) {
                     //Manejo del error
                     binding.pbLoading.visibility = View.GONE
+                    binding.tvError.visibility = View.VISIBLE
+                    binding.btReload.visibility = View.VISIBLE
                     Log.d(Constants.LOGTAG,"Error: ${t.message}")
-                    Toast.makeText(requireContext(), getString(R.string.errorConexion), Toast.LENGTH_LONG).show()
+
+                    binding.btReload.setOnClickListener {
+                        load()
+                    }
+
                 }
 
             })

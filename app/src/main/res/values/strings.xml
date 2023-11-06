@@ -58,6 +58,7 @@
     <string name="coma">, </string>
     <string name="noRegistros">Sin registros por mostrar</string>
     <string name="codigoPostal">Codigo postal: </string>
+    <string name="recargar">Recargar</string>
 
 
     <!--Catálogo-->

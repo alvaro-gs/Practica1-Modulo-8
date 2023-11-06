@@ -43,72 +43,107 @@ class DetalleProductoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvError.visibility = View.GONE
+        binding.btReload.visibility = View.GONE
+
+
         arguments?.let {
             productoId = it.getString(PRODUCTO_ID)
-
             Log.d(Constants.LOGTAG, "Id recibido: $productoId")
             repository = (requireActivity().application as ProyectoFinalApp).productoRepository
+            load()
+        }
+    }
 
-            lifecycleScope.launch {
-                productoId?.let { id ->
-                    val call: Call<DetalleProductoDto> = repository.getDetalleProductoApiary(id)
-                    call.enqueue(object : Callback<DetalleProductoDto> {
-                        override fun onResponse(
-                            call: Call<DetalleProductoDto>,
-                            response: Response<DetalleProductoDto>
-                        ) {
-                            binding.apply {
-                                pbLoading.visibility = View.GONE
+    private fun load(){
+        binding.tvError.visibility = View.GONE
+        binding.btReload.visibility = View.GONE
+        binding.pbLoading.visibility = View.VISIBLE
+        binding.tvName.visibility = View.VISIBLE
+        binding.ivProduct.visibility = View.VISIBLE
+        binding.vvVideo.visibility = View.VISIBLE
+        binding.tvDescriptionTitle.visibility = View.VISIBLE
+        binding.tvDescription.visibility = View.VISIBLE
+        binding.tvTypeTitle.visibility = View.VISIBLE
+        binding.tvType.visibility = View.VISIBLE
+        binding.tvPresentationsTitle.visibility = View.VISIBLE
+        binding.tvPresentations.visibility = View.VISIBLE
+        binding.btOrder.visibility = View.VISIBLE
 
-                                tvName.text = response.body()?.name
+        lifecycleScope.launch {
+            productoId?.let { id ->
+                val call: Call<DetalleProductoDto> = repository.getDetalleProductoApiary(id)
+                call.enqueue(object : Callback<DetalleProductoDto> {
+                    override fun onResponse(
+                        call: Call<DetalleProductoDto>,
+                        response: Response<DetalleProductoDto>
+                    ) {
+                        binding.apply {
+                            pbLoading.visibility = View.GONE
 
-                                Picasso.get()
-                                    .load(response.body()?.imageURL)
-                                    .error(R.drawable.ic_image)
-                                    .into(ivProduct)
+                            tvName.text = response.body()?.name
 
-                                tvDescription.text = response.body()?.description
-                                var category = ""
-                                when(response.body()?.categoryId){
-                                    1.toLong() -> category = getString(R.string.categoria1)
-                                    2.toLong() -> category = getString(R.string.categoria2)
-                                    3.toLong() -> category = getString(R.string.categoria3)
-                                    4.toLong() -> category = getString(R.string.categoria4)
-                                    5.toLong() -> category = getString(R.string.categoria5)
-                                }
-                                tvType.text = category
+                            Picasso.get()
+                                .load(response.body()?.imageURL)
+                                .error(R.drawable.ic_image)
+                                .into(ivProduct)
 
-                                var textoPresentation = ""
-                                for (i in response.body()?.presentations!!.indices){
-                                    textoPresentation += getString(R.string.presentacionesConPrecio,
-                                        response.body()?.presentations?.get(i)?.desc,
-                                        response.body()?.presentations?.get(i)?.price.toString())
+                            tvDescription.text = response.body()?.description
+                            var category = ""
+                            when(response.body()?.categoryId){
+                                1.toLong() -> category = getString(R.string.categoria1)
+                                2.toLong() -> category = getString(R.string.categoria2)
+                                3.toLong() -> category = getString(R.string.categoria3)
+                                4.toLong() -> category = getString(R.string.categoria4)
+                                5.toLong() -> category = getString(R.string.categoria5)
+                            }
+                            tvType.text = category
 
-                                    if (i < (response.body()?.presentations?.size!!) - 1)
-                                        textoPresentation += System.getProperty("line.separator")
-                                }
+                            var textoPresentation = ""
+                            for (i in response.body()?.presentations!!.indices){
+                                textoPresentation += getString(R.string.presentacionesConPrecio,
+                                    response.body()?.presentations?.get(i)?.desc,
+                                    response.body()?.presentations?.get(i)?.price.toString())
 
-                                tvPresentations.text = textoPresentation
+                                if (i < (response.body()?.presentations?.size!!) - 1)
+                                    textoPresentation += System.getProperty("line.separator")
+                            }
 
-                                val mc = MediaController(requireContext())
-                                mc.setAnchorView(binding.vvVideo)
-                                vvVideo.setVideoURI(Uri.parse(response.body()?.videoURL))
-                                vvVideo.setMediaController(mc)
-                                vvVideo.setOnPreparedListener{mediaPlayer ->
-                                    mediaPlayer.start()
-                                }
-                                vvVideo.setOnCompletionListener {mediaPlayer ->
-                                    mediaPlayer.start()
-                                }
+                            tvPresentations.text = textoPresentation
+
+                            val mc = MediaController(requireContext())
+                            mc.setAnchorView(binding.vvVideo)
+                            vvVideo.setVideoURI(Uri.parse(response.body()?.videoURL))
+                            vvVideo.setMediaController(mc)
+                            vvVideo.setOnPreparedListener{mediaPlayer ->
+                                mediaPlayer.start()
+                            }
+                            vvVideo.setOnCompletionListener {mediaPlayer ->
+                                mediaPlayer.start()
                             }
                         }
+                    }
 
-                        override fun onFailure(call: Call<DetalleProductoDto>, t: Throwable) {
-                            binding.pbLoading.visibility = View.GONE
-                            Toast.makeText(requireActivity(), getString(R.string.errorConexion), Toast.LENGTH_LONG).show()
+                    override fun onFailure(call: Call<DetalleProductoDto>, t: Throwable) {
+                        binding.pbLoading.visibility = View.GONE
+                        binding.tvError.visibility = View.VISIBLE
+                        binding.btReload.visibility = View.VISIBLE
+                        binding.tvName.visibility = View.GONE
+                        binding.ivProduct.visibility = View.GONE
+                        binding.vvVideo.visibility = View.GONE
+                        binding.tvDescriptionTitle.visibility = View.GONE
+                        binding.tvDescription.visibility = View.GONE
+                        binding.tvTypeTitle.visibility = View.GONE
+                        binding.tvType.visibility = View.GONE
+                        binding.tvPresentationsTitle.visibility = View.GONE
+                        binding.tvPresentations.visibility = View.GONE
+                        binding.btOrder.visibility = View.GONE
+
+                        binding.btReload.setOnClickListener {
+                            load()
                         }
-                    })
-                }
+                    }
+                })
             }
         }
     }
