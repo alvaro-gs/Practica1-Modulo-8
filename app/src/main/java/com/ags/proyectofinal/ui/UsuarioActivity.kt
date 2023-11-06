@@ -48,6 +48,7 @@ class UsuarioActivity : AppCompatActivity() {
             }
         }
 
+
         mediaPlayer.setOnCompletionListener {
             mediaPlayer.start()
         }

@@ -29,6 +29,7 @@ class PedidoActivity : AppCompatActivity() {
                 .commit()
         }
 
+
         binding.bottomNavigationView.selectedItemId = R.id.menuPedido
         binding.bottomNavigationView.setOnItemReselectedListener{menu ->
             when(menu.itemId){

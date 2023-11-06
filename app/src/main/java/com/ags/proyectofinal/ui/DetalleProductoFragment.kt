@@ -90,7 +90,6 @@ class DetalleProductoFragment : Fragment() {
 
                                 tvPresentations.text = textoPresentation
 
-
                                 val mc = MediaController(requireContext())
                                 mc.setAnchorView(binding.vvVideo)
                                 vvVideo.setVideoURI(Uri.parse(response.body()?.videoURL))
@@ -101,9 +100,7 @@ class DetalleProductoFragment : Fragment() {
                                 vvVideo.setOnCompletionListener {mediaPlayer ->
                                     mediaPlayer.start()
                                 }
-
                             }
-
                         }
 
                         override fun onFailure(call: Call<DetalleProductoDto>, t: Throwable) {
@@ -120,7 +117,6 @@ class DetalleProductoFragment : Fragment() {
         _binding = null
     }
     companion object {
-
         @JvmStatic
         fun newInstance(productoId: String ) = DetalleProductoFragment().apply {
             arguments = Bundle().apply {
