@@ -102,8 +102,6 @@ class DetalleProductoFragment : Fragment() {
                                     mediaPlayer.start()
                                 }
 
-
-
                             }
 
                         }

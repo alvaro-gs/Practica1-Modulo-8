@@ -30,6 +30,7 @@ class CatalogoActivity : AppCompatActivity() {
                 .commit()
         }
 
+        binding.bottomNavigationView.selectedItemId = R.id.menuHome
         binding.bottomNavigationView.setOnItemReselectedListener { menu ->
             when (menu.itemId) {
                 R.id.menuPedido -> {
@@ -45,7 +46,6 @@ class CatalogoActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
-
             }
         }
 

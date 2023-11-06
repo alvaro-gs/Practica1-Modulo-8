@@ -29,6 +29,7 @@ class PedidoActivity : AppCompatActivity() {
                 .commit()
         }
 
+        binding.bottomNavigationView.selectedItemId = R.id.menuPedido
         binding.bottomNavigationView.setOnItemReselectedListener{menu ->
             when(menu.itemId){
                 R.id.menuHome ->{
@@ -37,14 +38,13 @@ class PedidoActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
+
                 R.id.menuUser -> {
                     val intent = Intent(this, UsuarioActivity::class.java).apply {
                     }
                     startActivity(intent)
                     finish()
-
                 }
-
             }
         }
 
