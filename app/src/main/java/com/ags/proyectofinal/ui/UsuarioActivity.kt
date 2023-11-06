@@ -5,11 +5,11 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ags.proyectofinal.R
-import com.ags.proyectofinal.databinding.ActivityPedidoBinding
+import com.ags.proyectofinal.databinding.ActivityUsuarioBinding
 
-class PedidoActivity : AppCompatActivity() {
+class UsuarioActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityPedidoBinding
+    private lateinit var binding: ActivityUsuarioBinding
 
     private lateinit var mediaPlayer: MediaPlayer
 
@@ -17,15 +17,15 @@ class PedidoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityPedidoBinding.inflate(layoutInflater)
+        binding = ActivityUsuarioBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.queensdeception_d2_wq)
+        mediaPlayer = MediaPlayer.create(this, R.raw.deepstonelullaby_d2_bl)
         mediaPlayer.start()
 
         if (savedInstanceState == null){
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fgContainerView, ListaPedidosFragment())
+                .replace(R.id.fgContainerView, ConfiguracionFragment())
                 .commit()
         }
 
@@ -37,12 +37,11 @@ class PedidoActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
-                R.id.menuUser -> {
-                    val intent = Intent(this, UsuarioActivity::class.java).apply {
+                R.id.menuPedido -> {
+                    val intent = Intent(this, PedidoActivity::class.java).apply {
                     }
                     startActivity(intent)
                     finish()
-
                 }
 
             }
@@ -51,7 +50,6 @@ class PedidoActivity : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             mediaPlayer.start()
         }
-
     }
 
     override fun onDestroy() {

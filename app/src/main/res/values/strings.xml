@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ProyectoFinal</string>
+    <!-- Menu -->
+    <string name="inicio">Catálogo</string>
+    <string name="pedidos">Pedidos</string>
+    <string name="usuario">Usuario</string>
+
     <!-- Inicio de sesión/Registro -->
     <string name="iniciar">Iniciar sesión</string>
     <string name="registrar">¿No tienes cuenta? Registrate aquí</string>
@@ -60,6 +65,7 @@
     <string name="detalleProducto">Detalle del producto</string>
     <string name="tipo">Tipo de producto</string>
     <string name="presentaciones">Presentaciones y precio del producto</string>
+    <string name="pres">Presentaciones del producto</string>
     <string name="ordenar">Ordenar</string>
     <string name="descripción">Descripción</string>
     <string name="presentacionesConPrecio">%1s : $%2s</string>
@@ -69,5 +75,7 @@
     <string name="categoria4">Galletas</string>
     <string name="categoria5">Otros</string>
     <string name="errorConexion">Error de conexión</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

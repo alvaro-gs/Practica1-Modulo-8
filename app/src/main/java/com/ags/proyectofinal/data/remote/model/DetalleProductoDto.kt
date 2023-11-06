@@ -12,7 +12,9 @@ data class DetalleProductoDto(
     @SerializedName("type_id")
     var categoryId: Long ? = 0,
     @SerializedName("presentations")
-    var presentations : List<Presentations>? = null
+    var presentations : List<Presentations>? = null,
+    @SerializedName("video_url")
+    var videoURL: String ?= null
 
 )
 

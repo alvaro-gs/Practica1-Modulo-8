@@ -1,11 +1,13 @@
 package com.ags.proyectofinal.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.ags.proyectofinal.R
@@ -87,6 +89,20 @@ class DetalleProductoFragment : Fragment() {
                                 }
 
                                 tvPresentations.text = textoPresentation
+
+
+                                val mc = MediaController(requireContext())
+                                mc.setAnchorView(binding.vvVideo)
+                                vvVideo.setVideoURI(Uri.parse(response.body()?.videoURL))
+                                vvVideo.setMediaController(mc)
+                                vvVideo.setOnPreparedListener{mediaPlayer ->
+                                    mediaPlayer.start()
+                                }
+                                vvVideo.setOnCompletionListener {mediaPlayer ->
+                                    mediaPlayer.start()
+                                }
+
+
 
                             }
 

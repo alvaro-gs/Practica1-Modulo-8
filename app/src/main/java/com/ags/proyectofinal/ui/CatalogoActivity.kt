@@ -1,37 +1,58 @@
 package com.ags.proyectofinal.ui
 
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import com.ags.proyectofinal.R
-import com.ags.proyectofinal.application.ProyectoFinalApp
-import com.ags.proyectofinal.data.remote.ProductoRepository
-import com.ags.proyectofinal.data.remote.model.ProductoDto
 import com.ags.proyectofinal.databinding.ActivityCatalogoBinding
-import com.ags.proyectofinal.util.Constants
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+
 
 class CatalogoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCatalogoBinding
+
+    private lateinit var mediaPlayer: MediaPlayer
+
+    private var playing = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCatalogoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null){
+        mediaPlayer = MediaPlayer.create(this, R.raw.discipline_d2_lf)
+        mediaPlayer.start()
+
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fgContainerView, ListaProductosFragment())
                 .commit()
         }
+
+        binding.bottomNavigationView.setOnItemReselectedListener { menu ->
+            when (menu.itemId) {
+                R.id.menuPedido -> {
+                    val intent = Intent(this, PedidoActivity::class.java).apply {
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+
+                R.id.menuUser -> {
+                    val intent = Intent(this, UsuarioActivity::class.java).apply {
+                    }
+                    startActivity(intent)
+                    finish()
+                }
+
+            }
+        }
+
+        mediaPlayer.setOnCompletionListener {
+            mediaPlayer.start()
+        }
+
 
         /*val bundle = intent.getBundleExtra("EXTRA_BUNDLE")
         val type = intent.getStringExtra("KEY_INFO")
@@ -62,14 +83,28 @@ class CatalogoActivity : AppCompatActivity() {
         }*/
 
 
-
-
-        binding.btMisPedidos.setOnClickListener {
+        /*binding.btMisPedidos.setOnClickListener {
             val intent = Intent(this, PedidoActivity::class.java)
             startActivity(intent)
 
-        }
-
+        }*/
 
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        mediaPlayer.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer.pause()
+    }
+
 }

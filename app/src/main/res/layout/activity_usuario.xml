@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CatalogoActivity">
+    tools:context=".ui.UsuarioActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl"
@@ -19,6 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/gl"
+        android:name="com.ags.proyectofinal.ui.ListaPedidosFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
 
